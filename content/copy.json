@@ -1,0 +1,416 @@
+{
+  "about": "The words and pictures of the ENHERTU sizzle (v2), frame by frame. Change the words between the quotes, save, and reload the player (exports use this file too). Put **two stars** around bold words; the rest is light. How it works: content/README.md.",
+  "frames": {
+    "1": {
+      "time": "0:00.0–0:04.2",
+      "text": {
+        "lines": [
+          "**ENHERTU HAS BEEN**",
+          "PUSHING BOUNDARIES"
+        ]
+      }
+    },
+    "2": {
+      "time": "0:04.2–0:08.0",
+      "text": {
+        "lines": [
+          "PUSHING WHAT’S POSSIBLE",
+          "FOR PATIENTS"
+        ]
+      }
+    },
+    "3": {
+      "time": "0:08.0–0:13.2",
+      "text": {
+        "lines": [
+          "AND, OF COURSE,",
+          "**ENHERTU IS ALWAYS**"
+        ]
+      },
+      "pictures": {
+        "art": {
+          "src": "assets/copy/ptp-inset.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "7": {
+      "time": "0:21.4–0:27.2",
+      "text": {
+        "panel": [
+          "EXPANDED HER2:",
+          "**ACTIVATED**"
+        ],
+        "card": [
+          "JANUARY 2025",
+          "**FDA APPROVAL IN**",
+          "**HR+/HER2-LOW &**",
+          "**ULTRALOW mBC**"
+        ]
+      }
+    },
+    "8": {
+      "time": "0:27.2–0:32.4",
+      "text": {
+        "panel": [
+          "EXPANDED HER2:",
+          "**ACTIVATED**"
+        ],
+        "numbers": [
+          "90+",
+          "150+"
+        ],
+        "lines": [
+          "DB-06 TACTICS APPROVED",
+          "ON DAYS 0-5",
+          "FROM DAY 6+"
+        ]
+      }
+    },
+    "9": {
+      "time": "0:32.4–0:37.0",
+      "text": {
+        "lines": [
+          "**AND FROM THERE,**",
+          "**THE MOMENTUM**",
+          "**PICKED UP**"
+        ]
+      }
+    },
+    "10": {
+      "time": "0:37.0–0:41.6",
+      "text": {
+        "panel": [
+          "ASCO:",
+          "**ACTIVATED**"
+        ],
+        "lines": [
+          "MAY 2025",
+          "**AN IMPACT ACROSS**",
+          "**INDICATIONS**"
+        ]
+      }
+    },
+    "11": {
+      "time": "0:41.6–0:47.2",
+      "text": {
+        "panel": [
+          "ASCO:",
+          "**ACTIVATED**"
+        ],
+        "lines": [
+          "**HER2+**",
+          "**UNBRANDED**",
+          "**CAMPAIGN**",
+          "**WENT LIVE**"
+        ]
+      },
+      "pictures": {
+        "campaign": {
+          "src": "assets/copy/her2-unbranded.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "12": {
+      "time": "0:47.2–0:52.5",
+      "text": {
+        "panel": [
+          "ASCO:",
+          "**ACTIVATED**"
+        ],
+        "lines": [
+          "**DESTINY-GASTRIC04**",
+          "**DATA RELEASED**",
+          "WITH MATERIALS APPROVED",
+          "AND PRINTED **WITHIN 24 HOURS**"
+        ]
+      },
+      "pictures": {
+        "documents": {
+          "src": "assets/copy/docs-dg04.png",
+          "fit": "contain"
+        }
+      }
+    },
+    "13": {
+      "time": "0:52.5–0:56.9",
+      "text": {
+        "lines": [
+          "**AND THE**",
+          "**MOMENTUM**",
+          "**KEPT**",
+          "**ROLLING**"
+        ]
+      }
+    },
+    "14": {
+      "time": "0:56.9–1:02.0",
+      "text": {
+        "panel": [
+          "IMMERSIVE MODE",
+          "**ACTIVATED**:"
+        ],
+        "lines": [
+          "JUNE 2025",
+          "**2 PATIENT CASES**",
+          "**CAME TO LIFE**",
+          "**WITH APPLE**",
+          "**VISION PRO**"
+        ]
+      },
+      "pictures": {
+        "vision-pro": {
+          "src": "assets/copy/vision-pro.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "15": {
+      "time": "1:02.0–1:07.2",
+      "text": {
+        "panel": [
+          "KOLs:",
+          "**ACTIVATED**"
+        ],
+        "lines": [
+          "JULY 2025",
+          "**3 KOL VIDEOS SHOT**",
+          "**BACK-TO-BACK**"
+        ]
+      },
+      "pictures": {
+        "kol1": {
+          "src": "assets/copy/kol1.jpg",
+          "fit": "cover"
+        },
+        "kol2": {
+          "src": "assets/copy/kol2.jpg",
+          "fit": "cover"
+        },
+        "kol3": {
+          "src": "assets/copy/kol3.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "16": {
+      "time": "1:07.2–1:12.5",
+      "text": {
+        "panel": [
+          "BTD:",
+          "**ACTIVATED**"
+        ],
+        "lines": [
+          "JULY 2025",
+          "**FDA BREAKTHROUGH**",
+          "**GRANTED THERAPY**",
+          "**DESIGNATION**",
+          "**IN 1L HER2+ mBC**"
+        ]
+      }
+    },
+    "17": {
+      "time": "1:12.5–1:18.0",
+      "text": {
+        "panel": [
+          "NPP MODE:",
+          "**ACTIVATED**"
+        ],
+        "card": [
+          "AUGUST 2025",
+          "**A DIGITAL REDESIGN**",
+          "**TAKES SHAPE**"
+        ]
+      },
+      "pictures": {
+        "website": {
+          "src": "assets/copy/web-redesign.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "18": {
+      "time": "1:18.0–1:23.3",
+      "text": {
+        "panel": [
+          "PAN ENHERTU AND",
+          "PATIENT EXPERIENCE:",
+          "**ACTIVATED**"
+        ],
+        "card": [
+          "**WORKSTREAMS**",
+          "**COMMENCED** ACROSS",
+          "US/GLOBAL"
+        ]
+      },
+      "pictures": {
+        "documents": {
+          "src": "assets/copy/nausea-docs.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "19": {
+      "time": "1:23.3–1:28.3",
+      "text": {
+        "panel": [
+          "1L MODE:",
+          "**ACTIVATED**"
+        ],
+        "card": [
+          "DECEMBER 2025",
+          "**FDA APPROVAL**",
+          "IN **1L HER2+ mBC**"
+        ]
+      }
+    },
+    "20": {
+      "time": "1:28.3–1:33.5",
+      "text": {
+        "panel": [
+          "1L MODE:",
+          "**ACTIVATED**"
+        ],
+        "numbers": [
+          "80+",
+          "90+"
+        ],
+        "lines": [
+          "DB-09 TACTICS",
+          "APPROVED",
+          "ON DAYS 0-5",
+          "FROM DAY 6+"
+        ]
+      }
+    },
+    "21": {
+      "time": "1:33.5–1:38.5",
+      "text": {
+        "lines": [
+          "**AND THEN WE**",
+          "**AIMED EVEN**",
+          "**EARLIER...**"
+        ]
+      }
+    },
+    "22": {
+      "time": "1:38.5–1:43.8",
+      "text": {
+        "lines": [
+          "MAY 2026",
+          "eBC LAUNCH",
+          "MODE:",
+          "**ACTIVATED**"
+        ]
+      },
+      "pictures": {
+        "screen": {
+          "src": "assets/copy/ebc-early-edition.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "23": {
+      "time": "1:43.8–1:49.3",
+      "text": {
+        "lines": [
+          "ENHERTU **LEVELED UP**",
+          "**WITH A DUAL LAUNCH**",
+          "IN THE CURATIVE",
+          "INTENT SETTING:"
+        ]
+      }
+    },
+    "24": {
+      "time": "1:49.3–1:56.0",
+      "text": {
+        "left": [
+          "NEOADJUVANT:",
+          "**DESTINY-BREAST11**",
+          "&",
+          "POST-NEOADJUVANT:",
+          "**DESTINY-BREAST05**"
+        ],
+        "numbers": [
+          "100+",
+          "90+"
+        ],
+        "right": [
+          "DB-11/05 TACTICS",
+          "APPROVED ON",
+          "DAYS 0-5",
+          "FROM",
+          "DAY 6+"
+        ]
+      }
+    },
+    "25": {
+      "time": "1:56.0–2:01.2",
+      "text": {
+        "lines": [
+          "**18+** MONTHS.",
+          "**4** MAJOR LAUNCHES.",
+          "**XXX** TEAM MEMBERS."
+        ]
+      }
+    },
+    "27": {
+      "time": "2:01.2–2:06.0",
+      "text": {
+        "lines": [
+          "AND THERE’S STILL SO MUCH MORE",
+          "**TO PUSH FOR**"
+        ]
+      },
+      "pictures": {
+        "art": {
+          "src": "assets/copy/tail-art.jpg",
+          "fit": "cover"
+        }
+      }
+    },
+    "28": {
+      "time": "2:06.0–2:12.6",
+      "text": {
+        "lines": [
+          "MORE OPPORTUNITIES.",
+          "**MORE**",
+          "**GAME-CHANGING**",
+          "**OUTCOMES.**",
+          "MORE TOMORROWS",
+          "SET IN MOTION."
+        ]
+      }
+    },
+    "29": {
+      "time": "2:12.6–2:16.1",
+      "text": {
+        "lines": [
+          "THERE IS SO",
+          "MUCH MORE TO",
+          "**ENHERTU**"
+        ]
+      }
+    },
+    "30": {
+      "time": "2:16.1–2:19.6",
+      "text": {
+        "lines": [
+          "AND SO",
+          "MUCH MORE",
+          "**TO COME**"
+        ]
+      }
+    },
+    "31": {
+      "time": "2:19.6–2:26.9",
+      "pictures": {
+        "logo": {
+          "src": "assets/copy/enhertu-logo.png",
+          "fit": "contain"
+        }
+      }
+    }
+  }
+}

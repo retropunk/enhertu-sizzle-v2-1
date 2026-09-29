@@ -1,0 +1,25 @@
+{
+  "frame": 27,
+  "about": "Adjustments to this frame on top of how it is built (0, or 1 for speed, = no change). Each is full at this frame's hold and eases out by the neighbouring frames.",
+  "timing": {
+    "holdStart": 0,
+    "holdEnd": 0
+  },
+  "camera": {
+    "orbit": 0,
+    "tilt": 0,
+    "push": 0,
+    "panX": 0,
+    "panY": 0,
+    "lens": 0,
+    "roll": 0
+  },
+  "sphere": {
+    "speed": 1,
+    "nudge": [
+      0,
+      0,
+      0
+    ]
+  }
+}

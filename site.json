@@ -1,0 +1,89 @@
+{
+  "app": "enhertu-sizzle-v2",
+  "site": 1,
+  "version": "c8d50119",
+  "built": "2026-09-29T12:30:35.070Z",
+  "newest": {
+    "file": "index.html",
+    "time": "2026-09-29T12:30:19.324Z"
+  },
+  "pictures": [
+    {
+      "name": "docs-dg04.png",
+      "src": "assets/copy/docs-dg04.png",
+      "bytes": 666415
+    },
+    {
+      "name": "ebc-early-edition.jpg",
+      "src": "assets/copy/ebc-early-edition.jpg",
+      "bytes": 128596
+    },
+    {
+      "name": "enhertu-logo.png",
+      "src": "assets/copy/enhertu-logo.png",
+      "bytes": 22468
+    },
+    {
+      "name": "her2-unbranded.jpg",
+      "src": "assets/copy/her2-unbranded.jpg",
+      "bytes": 156149
+    },
+    {
+      "name": "kol1.jpg",
+      "src": "assets/copy/kol1.jpg",
+      "bytes": 32114
+    },
+    {
+      "name": "kol2.jpg",
+      "src": "assets/copy/kol2.jpg",
+      "bytes": 35199
+    },
+    {
+      "name": "kol3.jpg",
+      "src": "assets/copy/kol3.jpg",
+      "bytes": 31823
+    },
+    {
+      "name": "nausea-docs.jpg",
+      "src": "assets/copy/nausea-docs.jpg",
+      "bytes": 128483
+    },
+    {
+      "name": "ptp-inset.jpg",
+      "src": "assets/copy/ptp-inset.jpg",
+      "bytes": 211692
+    },
+    {
+      "name": "tail-art-27.jpg",
+      "src": "assets/copy/tail-art-27.jpg",
+      "bytes": 131295
+    },
+    {
+      "name": "tail-art.jpg",
+      "src": "assets/copy/tail-art.jpg",
+      "bytes": 105778
+    },
+    {
+      "name": "vision-pro.jpg",
+      "src": "assets/copy/vision-pro.jpg",
+      "bytes": 83523
+    },
+    {
+      "name": "web-redesign.jpg",
+      "src": "assets/copy/web-redesign.jpg",
+      "bytes": 132260
+    }
+  ],
+  "sound": {
+    "src": "assets/sound/sfx-stem-v2.m4a",
+    "bytes": 2861297,
+    "made": "2026-09-29T11:29:43.265Z",
+    "madeFor": {},
+    "inStep": true
+  },
+  "recorder": {
+    "file": "player/recorder.js",
+    "bytes": 44577,
+    "sha256": "4070de07"
+  }
+}
