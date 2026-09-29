@@ -1,35 +1,27 @@
-/* Copy · frame 1 (0 → 4.95 s): ENHERTU HAS BEEN / PUSHING BOUNDARIES, built line by line (v1: each line rises out of its mask).
-   · No exit: the camera carries it off (user, 2026-09-29, question A3: "Add a gentle camera move so the text leaves the
-     frame the way it does everywhere else, which matches your 'no exits' note"; on frame 8, the same day: "it should stay
-     in 3D space place"). PUSHING BOUNDARIES sits on a card in hold 1's view (3 units in front of the sphere, as approved)
-     and stays there in the world: it never rides the camera and never swipes out. After board 1's key instant the camera
-     tilts up (g1.js, the tilt; the set is carried with it, as G1's set always is), so the line sinks off the bottom of
-     the frame, easing into it from the key instant and then sinking steadily at ~320 px/s (323 at most), with no growth.
-     It reads for 3.37 s (1.23 → 4.60; approved 3.30), is gone by G1.T.pbOff (4.95 s, just as frame 2's lines swipe in on
-     the same spot) and is switched off then (the camera never brings it back).
-     The review of 2026-09-29 replaced the earlier way (the line rode 85 % of the camera through the slow window, then
-     came to rest 13 units from the lens and swept off at up to 700 px/s, growing, still on screen as frame 2's lines
-     came in: it read "as a fast fly-off rather than a gentle camera carry").
+/* Copy · frame 1 (0 → 4.2 s): ENHERTU HAS BEEN / PUSHING BOUNDARIES, built line by line (v1: each line rises out of its mask).
+   · PUSHING BOUNDARIES sits on a card in hold 1's view (a little in front of the sphere), rises out of its mask as v1, and
+     swipes out to the right just before frame 2's PUSHING WHAT'S POSSIBLE swipes in on the same spot (from 4.4, gone by
+     4.85; the new line starts at 4.95). All times are read from the holds, so a retimed hold carries the copy.
+     Its exit is KEPT under the user's no-transition-outs rule (2026-09-28 00:30), as the rule's exception: the camera only
+     creeps ~8 units forward between boards 1 and 2 (measured with no exit: the line stays fully on screen, drifting ~20
+     px, and sits right on top of PUSHING WHAT'S POSSIBLE, board 2's line at the same height), so nothing would hide it.
+     It now stays ~0.85 s longer (it left at 3.55).
    · ENHERTU HAS BEEN is its own layer ("lines in layers", used once here) because it stays into frame 2 and glides to its
-     board-2 place (v1: x −56; the boards: 50 px left and 18 px up). It is laid out in hold 2's approved view (g1.js's
-     G1.base[2]); at hold 1 an offset in its plane, a depth and a 1.7° turn put it exactly on board 1's line. Up to board
-     2's key instant it is turned with the camera's tilt (inTilt(), below), so its entrance and glide are exactly the
-     approved ones; from that key instant it stays in the world with frame 2's other lines and the next tilt carries it
-     off (c02.js). Entrance: it rises out of its mask while pushing forward out of the depth (frame 1's one Z moment; the
-     camera is pushing in at the same time, so the letters come at you). The carry is in c02.js.
+     board-2 place (v1: x −56; the boards: 50 px left and 18 px up). It lives in hold 2's view; at hold 1 an offset in its
+     plane, a depth and a 1.7° turn put it exactly on board 1's line. Entrance: it rises out of its mask while pushing
+     forward out of the depth (frame 1's one Z moment; the camera is pushing in at the same time, so the letters come at
+     you). The carry and its exit are in c02.js.
    · Every line is v1's (text, weight, animation) with its size, letter-spacing and place fitted to the board by least
      squares over the glyph edges (v1's type ran 4–7 % wider than the boards' tighter tracking, and board 2's block sits
      18 px higher than v1 put it): each line is within 2 px of its board lettering at the holds.
    · Never still (user, 21:50: the copy "hovers subtly in 3D"): every line floats on its own wrapper (hover(), below), zero
      at the key instants, so it sits on its board place as the camera passes each board and drifts gently around it.
-   Also exports the helpers c01–c03 share: v1's type metrics (FONT), the super line (line()), the hover (hover()) and the
-   tilt wrapper (inTilt()). */
+   Also exports the helpers c01–c03 share: v1's type metrics (FONT), the super line (line()) and the hover (hover()). */
 
 /* Type metrics (as v1): the supers' sizes were set for Open Sans from the board's cap heights. FONT.scale keeps those cap
    heights with the brand face, and FONT.cc[weight] is where the cap centre sits in a line-height-1 box (measured once the
    face has loaded). */
 import { contentFor, fillRuns, inkRuns, shrinkK } from './content.js';
-import { G1 } from '../groups/g1.js';
 export { contentFor };
 export const FONT = { scale: 1, cc: { 300: 0.52, 700: 0.52, 800: 0.52 } };
 const lines = [];
@@ -102,35 +94,21 @@ export function hover(V, el, tks, { seed = 0, amp = 1, origin } = {}) {
 
 export const shared = {};                                             // c01 → c02: the ENHERTU HAS BEEN layer
 
-/* inTilt(V, o, base, tf): copy that stays in the world from its key instant tf, with the camera's tilt (g1.js) carrying it
-   off. The layer o is laid out in `base`, the approved, un-tilted hold (G1.base[n]); up to tf it is turned with the camera
-   (G1.tiltNow), so it looks exactly as approved while it builds and reads; from tf it keeps the turn it had at tf, i.e. it
-   stays where it is in the world while the camera tilts on. At tf both agree, and the tilt's rate is zero at each key
-   instant, so the hand-over shows nothing. */
-export function inTilt(V, o, base, tf) {
-  const { THREE } = V, H = Object.create(o.H), q = new THREE.Quaternion(), fw = new THREE.Vector3();
-  let TF = null;
-  const T = () => (G1.t ?? 0) < tf ? G1.tiltNow : (TF || (TF = G1.tilt(tf)));
-  H.at = (x, y, d) => { const Tn = T(); q.copy(Tn.q).multiply(base.q); fw.copy(base.fwd).applyQuaternion(Tn.q); return Tn.apply(base.at(x, y, d)); };
-  Object.defineProperty(H, 'q', { get: () => q });
-  Object.defineProperty(H, 'fwd', { get: () => fw });
-  o.H = H;
-  return o;
-}
-
 export default V => {
   const { copy, copyLayer, copyTL, holds } = V;
-  const h1 = holds[1], h2 = G1.base[2];                              // every time is read from the holds (hold 1: 1.7–3.5); hold 2's approved view
+  const h1 = holds[1], h2 = holds[2];                               // every time is read from the holds (hold 1: 1.7–3.5)
   const TX = contentFor(V, 1);                                      // frame 1's words (content/copy.json); only an edited line is re-fitted
   const ed = (i, md, o) => { const r = TX.line('lines', i, md); return r.edited ? { ...r, ...o } : undefined; };
 
-  /* ---- PUSHING BOUNDARIES: hold 1's card, in the world (the tilt carries it off; see the header) ---- */
-  const card1 = copy(1, { depth: h1.depth - 3 }).show(0, G1.T.pbOff);
+  /* ---- PUSHING BOUNDARIES: hold 1's card ---- */
+  const XO = h2.t0 - 0.75 - 0.55;                                    // its swipe-out: 0.45 s, done 0.1 s before c02's first line swipes in
+  const card1 = copy(1, { depth: h1.depth - 3 }).show(0, XO + 0.5);
   const pb = line(V, card1.el, 408.5, 558.1, 105.05, 'l', 'PUSHING BOUNDARIES', { ls: -4.4, edit: ed(1, 'PUSHING BOUNDARIES', { align: 'center' }) });   // fitted to board 1 (v1: 420, 560, 104)
-  copyTL.fromTo(pb, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: 'power3.out' }, h1.t0 - 0.75);
-  hover(V, pb.parentElement, h1.tk, { seed: 1 });                   // (the line's mask wrapper: the span's own transform is the rise)
+  copyTL.fromTo(pb, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: 'power3.out' }, h1.t0 - 0.75)
+    .fromTo(pb, { clipPath: 'inset(0% 0% 0% 0%)', x: 0 }, { clipPath: 'inset(0% 0% 0% 100%)', x: 60, duration: 0.45, ease: 'power2.in', immediateRender: false }, XO);
+  hover(V, pb.parentElement, h1.tk, { seed: 1 });                   // (the line's mask wrapper: the span's own transform is the rise / swipe)
 
-  /* ---- ENHERTU HAS BEEN: its own layer, in hold 2's approved view (it ends on board 2) ----
+  /* ---- ENHERTU HAS BEEN: its own layer, in hold 2's view (it ends on board 2) ----
      The layer is a box in board-2 stage px (left BX, top BY, BW × BH) centred on `at`; its inner `mv` is what glides. */
   const BX = 150, BY = 360, BW = 1150, BH = 170, dep = h2.depth - 3;
   const el = document.createElement('div'); el.style.cssText = `width:${BW}px;height:${BH}px`;
@@ -138,7 +116,7 @@ export default V => {
   el.appendChild(mv);
   const ehb = line(V, mv, 194.9, 423.7, 100.8, 'b', 'ENHERTU HAS BEEN', { ls: -0.8, ox: BX, oy: BY, edit: ed(0, '**ENHERTU HAS BEEN**', { maxR: 1220 }) });   // (an edit stays clear of board 1's sphere)   // board 2's place, fitted (v1: 196, 445, 104)
   const at = [BX + BW / 2, BY + BH / 2];
-  const E = inTilt(V, copyLayer(2, el, { at, depth: dep }), h2, h2.tk).show(0, G1.T.b2Off);   // (c02.js sets the same end)
+  const E = copyLayer(2, el, { at, depth: dep }).show(0, holds[3].t0 - 0.9);   // c02.js owns this end (its swipe-out, hold 3 start − 1.7, + 0.8) and sets the same value
   // hold 1's pose: the box 50 px right and 18 px down (board 1's place, measured) on hold 1's view ray, `dep` from that
   // camera (so it shows at 1:1 there), expressed in the layer's plane (mv's x / y, in px) and depth (dz) from its hold-2 place
   const k = dep * h2.tanV / 540, d = h1.at(at[0] + 50, at[1] + 18, dep).sub(h2.at(at[0], at[1], dep));
@@ -146,7 +124,7 @@ export default V => {
   // …and turned to face hold 1's camera there (hold 2 looks 1.7° further right; left square to it, the line's far end
   // would sit 5 px off board 1's): a yaw about the line's own centre, in the layer's CSS frame (y down)
   const f1 = h1.fwd; P1.ry = -Math.atan2(f1.dot(h2.right), f1.dot(h2.fwd)) * 180 / Math.PI; P1.rx = Math.atan2(f1.dot(h2.upv), f1.dot(h2.fwd)) * 180 / Math.PI;
-  Object.assign(shared, { E, mv, span: ehb, P1 });                   // c02.js carries it to board 2
+  Object.assign(shared, { E, mv, span: ehb, P1 });                   // c02.js carries it to board 2 and swipes it out
   gsap.set(mv, { x: P1.x, y: P1.y, rotationY: P1.ry, rotationX: P1.rx, transformPerspective: 0, transformOrigin: '50% 50%' });
   // entrance: rises out of its mask (v1: 0.7 s) while it pushes forward out of the depth
   copyTL.fromTo(ehb, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: 'power3.out' }, h1.t0 - 1.15)

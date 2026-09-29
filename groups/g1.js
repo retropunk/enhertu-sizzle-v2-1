@@ -11,30 +11,10 @@
    · 2 → 3 (carry): the right cluster stays (stadium, slot, sphere, dot, lower ring); the left set slides out and
      board 3's new set slides in from the edges (tall orange rect + capsule from the top, the bottom rect from the left,
      the pink right rect from below, the violet pill from the right, the coral-to-blue back wall from the top).
-   · The tilt: the camera carries the copy off (user, 2026-09-29, question A3: "Add a gentle camera move so the text
-     leaves the frame the way it does everywhere else, which matches your 'no exits' note"; and on frame 8: "it should
-     stay in 3D space place"). After each board's key instant the camera tilts up, ~15° by board 2 and ~18° more by
-     board 3 (the tilt, below), and each board's copy stays where it is in the world from its key instant, so the tilt
-     carries it gently off the bottom of the frame: PUSHING BOUNDARIES after board 1, frame 2's three lines after board 2.
-     They ease into the sink from the key instant and sink steadily (~320 and ~305 px/s, plus the sideways drift the
-     approved camera gives them; under 355 px/s even while leaving), with no ride, no release and no growth, and are gone
-     before the next board's copy starts (4.95 and 9.35 s). The set is carried with the tilt, the way G1's set is always
-     carried from board to board (the carry, below): every shape, the sphere and the back wall are laid out in the
-     approved, un-tilted views (baseHold) and turned with the camera each frame (the compensation anims), so the collage,
-     the sphere and every gradient render exactly as approved (set-only stills match the untouched piece to rounding). The review of 2026-09-29 found the earlier way (a gentle crane, with the copy riding the camera through
-     each slow window and then resting 11–13 units from the lens) read "as a fast fly-off rather than a gentle camera
-     carry": the copy swept off at up to 700–880 px/s, growing, and was still on screen as the next board's copy started.
-     This replaces that crane; the camera path under the tilt is the approved one again.
      Board 3's centre is covered by the PTP image card (copy layer): the big rect sits behind it with its pink foot showing.
    · Leaves through the full-screen gradient wipe, left to right (user: it replaces v1's brand-circle burst), cut at 13.2.
    Living gradients flow at full strength throughout; each piece's flow is phase-locked so it passes through its board
    colours at its hold's key instant (the same method as g2.js), and its colour drift is capped at 25 % (g2.js's calm). */
-
-/* What G1's copy (c01–c03) needs from the journey, filled when the group runs (copy files run after the groups):
-   tilt(t) → the camera's tilt at authored time t as a rigid turn { q, apply(v) } (see the tilt below), tiltNow the one for
-   the frame being rendered, base[n] the approved, un-tilted hold n (the copy is laid out in it and turned by the tilt),
-   camBase(t) the approved camera path (pos, look) under the tilt, and the copy's timing (T). */
-export const G1 = {};
 export default V => {
   const { hold, seg, runSegs, curve, wipe, note, bgKey, o, THREE, S, anim, holds } = V;
   const mine = [];
@@ -44,143 +24,10 @@ export default V => {
   // frontal camera, long lens (flat at the key instants); the marks sit a little apart so the camera re-frames between boards.
   // Drift-throughs (user, 21:50: "never stop … ease into that keyframe and then ease back out"): the camera passes each
   // board's exact framing at its key instant tk without stopping; t0–t1 is the slow window around it (the copy's timing)
-  const Y = new THREE.Vector3(0, 1, 0);
-  // The approved holds. Hold 1 is registered as it is (the tilt starts after its key instant). Holds 2 and 3 are the
-  // approved, un-tilted views (baseHold: the same placement as the engine's hold() for { mark, dir }); every shape, the
-  // sphere and the copy are laid out in them, and the camera registered for boards 2 and 3 is the tilted one (below).
   const h1 = hold(1, { pass: true, t: [1.7, 3.5], tk: 2.6, mark: o(0, 0, 0), dir: [0, 0, -1], fov: 26, plate: false });
-  const baseHold = (n, { t, tk, mark, dir, fov }) => {
-    const tanV = Math.tan(fov * Math.PI / 360), B = V.BOARD[n], cam = new THREE.PerspectiveCamera();
-    const basis = (pos, look) => { cam.position.copy(pos); cam.up.set(0, 1, 0); cam.lookAt(look); cam.updateMatrixWorld(); const e = cam.matrixWorld.elements;
-      return { right: new THREE.Vector3(e[0], e[1], e[2]), upv: new THREE.Vector3(e[4], e[5], e[6]), fwd: new THREE.Vector3(-e[8], -e[9], -e[10]), q: cam.quaternion.clone() }; };
-    const ray = (Bs, px, py) => Bs.fwd.clone().addScaledVector(Bs.right, (px - 960) / 540 * tanV).addScaledVector(Bs.upv, (540 - py) / 540 * tanV);
-    const depth = V.R * 540 / (B.d / 2 * tanV), d = new THREE.Vector3(...dir).normalize();
-    const pos = mark.clone().addScaledVector(ray(basis(new THREE.Vector3(), d), B.px, B.py), -depth), look = pos.clone().addScaledVector(d, 10), Bs = basis(pos, look);
-    return { n, t0: t[0], t1: t[1], tk, pos, look, fov, roll: 0, tanV, ...Bs, mark: mark.clone(), aim: mark.clone(), depth, pass: true, at: (px, py, dd) => pos.clone().addScaledVector(ray(Bs, px, py), dd) };
-  };
-  const h2 = baseHold(2, { t: [5.7, 7.4], tk: 6.55, mark: o(1.8, 0.4, 1.0), dir: [0.03, 0, -1], fov: 26 });
-  const h3 = baseHold(3, { t: [9.9, 12.1], tk: 11.0, mark: o(3.4, 0.6, 1.4), dir: [0.06, -0.02, -1], fov: 26 });
+  const h2 = hold(2, { pass: true, t: [5.7, 7.4], tk: 6.55, mark: o(1.8, 0.4, 1.0), dir: [0.03, 0, -1], fov: 26, plate: false });
+  const h3 = hold(3, { pass: true, t: [9.9, 12.1], tk: 11.0, mark: o(3.4, 0.6, 1.4), dir: [0.06, -0.02, -1], fov: 26, plate: false });
   const HK = { 1: h1, 2: h2, 3: h3 };
-
-  /* ---------------- the camera: one continuous move through boards 1–3, never still ----------------
-     Knots: the start (a push already under way on the blank purple), each board's exact framing at its key instant (the
-     drift-through holds' own keys), the apex of the 2 → 3 arc, and the drift into the wipe. The path between knots is one
-     smooth curve (Hermite segments, each knot's tangent along the blend of its two chords, sized by the shorter one: no
-     hooks) and the pace is designed on its own: it eases down to the knot speed around each key instant, lingering there
-     (a sin⁴ bump, flat at both ends, so speed and acceleration are continuous), and cruises in between. Each board is passed
-     at ~20–30 % of the moves either side (board 1: 1.0 u/s between 3.4 and 4.2; board 2: 1.0 between 4.2 and 3.2; board 3:
-     0.6 between 3.1 and 2.6 into the wipe). Tuned for what the eye sees, the set's motion on screen (a grid on the set's
-     plane, from the camera alone): 30–80 px/s throughout, easing to ~30–40 at each key instant, no sudden changes.
-     · 1 → 2 is an S: the camera comes in to board 1 drifting left and swings back through the fast push, so it passes
-       board 2 already drifting right (the way it goes on to 3). Straight in, the drift reversed right at board 2, where a
-       pure push shows little on screen.
-     · 2 → 3 is only ~2.9 units apart, too short for a real move between two slow passes, so the camera arcs toward the
-       set: it pushes in on from board 2 while board 2's set leaves, pans right at the apex (3.5 units nearer the set), then
-       pulls back into board 3's framing as board 3's shapes slide in (a reveal), and pushes in again into the wipe. The
-       apex is passed slower (1.2 u/s) than the push and pull either side of it: there the whole move is sideways, which
-       shows most on screen, so the motion on screen stays even (at full speed it whipped to 170 px/s).
-     · 3 → the wipe: the push in carries a clear drift right (review, 2026-09-28: straight in, it showed only 37–53 px/s for
-       ~2.3 s after board 3, so the ease back out barely read); board 3 is passed already leaning into it.
-     The view turns from one board's direction to the next with the same progress. Laid down as keys every 1/60 s (the
-     engine's Hermite through them reproduces the curve). This is the approved path (camG1); since the review of
-     2026-09-29 each key is that pose turned by the tilt (below), with the roll the engine needs (the keys are laid
-     down at the end of this file). */
-  const mf = h2.fwd.clone().lerp(h3.fwd, 0.5).normalize();
-  const CK = [   // lat: a sideways lean added to the knot's tangent; kin: that tangent's length × on the incoming side
-    { t: 0, p: h1.pos.clone().addScaledVector(h1.fwd, -5.5).addScaledVector(h1.right, 1.5), d: h1.fwd, v: null },   // v null: solved (no bump)
-    { t: h1.tk, p: h1.pos, d: h1.fwd, v: 1.0, lat: [h1.right, -0.3] },
-    { t: h2.tk, p: h2.pos, d: h2.fwd, v: 1.0, lat: [h2.right, 0.9], kin: 1.6 },
-    { t: (h2.tk + h3.tk) / 2, p: h2.pos.clone().lerp(h3.pos, 0.5).addScaledVector(mf, 3.5), d: mf, v: 1.2 },
-    { t: h3.tk, p: h3.pos, d: h3.fwd, v: 0.6, lat: [h3.right, 0.35] },
-    { t: 13.2, p: h3.pos.clone().addScaledVector(h3.fwd, 3.4).addScaledVector(h3.right, 2.4), d: h3.fwd, v: null },
-  ];
-  const n = CK.length, chord = i => CK[i].p.distanceTo(CK[i + 1].p);
-  const tg = CK.map((c, i) => { const a = i > 0 ? c.p.clone().sub(CK[i - 1].p).normalize() : null, b = i < n - 1 ? CK[i + 1].p.clone().sub(c.p).normalize() : null;
-    const d = (a && b ? a.add(b) : (a || b)).normalize(); if (c.lat) d.addScaledVector(c.lat[0], c.lat[1]).normalize();
-    return d.multiplyScalar(i === 0 ? chord(0) : i === n - 1 ? chord(n - 2) : Math.min(chord(i - 1), chord(i))); });
-  const SG = CK.slice(0, -1).map((A, i) => { const B = CK[i + 1], ma = tg[i], mb = tg[i + 1].clone().multiplyScalar(B.kin || 1), N = 600, pts = [], cum = [0];
-    const P = u => { const u2 = u * u, u3 = u2 * u; return A.p.clone().multiplyScalar(2 * u3 - 3 * u2 + 1).addScaledVector(ma, u3 - 2 * u2 + u).addScaledVector(B.p, -2 * u3 + 3 * u2).addScaledVector(mb, u3 - u2); };
-    for (let j = 0; j <= N; j++) pts.push(P(j / N));
-    for (let j = 1; j <= N; j++) cum.push(cum[j - 1] + pts[j].distanceTo(pts[j - 1]));
-    return { A, B, pts, cum, Lg: cum[N], dt: B.t - A.t, q: new THREE.Quaternion().setFromUnitVectors(A.d, B.d) }; });
-  SG[0].A.v = 2 * SG[0].Lg / SG[0].dt - SG[0].B.v;
-  SG.at(-1).B.v = 2 * SG.at(-1).Lg / SG.at(-1).dt - SG.at(-1).A.v;
-  SG.forEach(s => { s.va = s.A.v; s.vb = s.B.v; s.am = (s.Lg / s.dt - (s.va + s.vb) / 2) / 0.375; });
-  // distance along a segment at u: ∫ (va + (vb − va)·smoothstep + am·sin⁴(πu)) dt
-  const sOf = (s, u) => s.dt * (s.va * u + (s.vb - s.va) * (u * u * u - u * u * u * u / 2) + s.am * (3 * u / 8 - Math.sin(2 * Math.PI * u) / (4 * Math.PI) + Math.sin(4 * Math.PI * u) / (32 * Math.PI)));
-  const camG1 = t => {
-    const s = SG.find(x => t <= x.B.t + 1e-9) || SG.at(-1), u = Math.min(1, Math.max(0, (t - s.A.t) / s.dt)), d = Math.min(s.Lg, Math.max(0, sOf(s, u)));
-    let lo = 0, hi = s.cum.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (s.cum[m] <= d) lo = m; else hi = m; }
-    const f = (d - s.cum[lo]) / Math.max(1e-9, s.cum[hi] - s.cum[lo]), pos = s.pts[lo].clone().lerp(s.pts[hi], f);
-    const w = d / s.Lg, dir = s.A.d.clone().applyQuaternion(new THREE.Quaternion().slerp(s.q, w * w * (3 - 2 * w)));
-    return { pos, look: pos.clone().addScaledVector(dir, 10) };
-  };
-  G1.camBase = camG1;
-
-  /* ---------------- the tilt (A3: the camera carries the copy off; see the header) ----------------
-     Two turns of the camera up about its own right axis: after board 1's key instant about hold 1's camera, after
-     board 2's about hold 2's (tilted) camera. Each is designed by what it does on screen to the copy it carries off (SINK
-     below: PUSHING BOUNDARIES for turn 1, FOR PATIENTS for turn 2, each fixed in the world from its key instant): from
-     the key instant the line eases into a sink (a smootherstep ramp of its speed over ru s) and then sinks at a steady
-     v px/s on top of the drift the approved camera gives it, until it is off the bottom (by J). The turn's angle is
-     solved for that every 1/240 s; after J its rate eases back to zero over rd s (a smootherstep), long before the next
-     key instant, so each board is met with the tilt at rest and the camera's own ease-through untouched.
-     tilt(t) is the whole turn at t as a rigid transform of the world: the camera is tilt(t) applied to the approved
-     camera, and whatever is turned by tilt(t) too (the set, the sphere, the copy up to its key instant) looks exactly as
-     approved; what is not (the copy from its key instant) stays in the world and sinks. */
-  const sInt = x => x <= 0 ? 0 : x >= 1 ? 0.5 : x ** 4 * (x * (x - 3) + 2.5);   // ∫ smootherstep from 0 to x
-  const rot = (axis, ang) => new THREE.Quaternion().setFromAxisAngle(axis, ang);
-  const TA1 = { P: h1.pos.clone(), ax: h2.right.clone() };          // turn 1: about hold 1's camera, about board 2's right axis (board 2 is met with no roll)
-  let TA2 = null;                                                    // turn 2: about hold 2's tilted camera (set once turn 1 is known)
-  const turn = (A, ang, v) => v.sub(A.P).applyQuaternion(rot(A.ax, ang)).add(A.P);
-  // screen y (px) of the world point X, seen from the approved camera at t turned by a1 (and a2)
-  const screenY = (t, X, a1, a2) => {
-    const c = camG1(t), C = turn(TA1, a1, c.pos.clone()); if (TA2) turn(TA2, a2, C);
-    const q = TA2 ? rot(TA2.ax, a2).multiply(rot(TA1.ax, a1)) : rot(TA1.ax, a1);
-    const f0 = c.look.clone().sub(c.pos).normalize(), r0 = f0.clone().cross(Y).normalize(), u0 = r0.clone().cross(f0);
-    const d = X.clone().sub(C); return 540 - 540 * d.dot(u0.applyQuaternion(q)) / d.dot(f0.applyQuaternion(q)) / h1.tanV;
-  };
-  // one turn: the line at X eases into a sink of v px/s from t0 (ru s), until J; the angle a as a table, then eased to rest
-  const solveTurn = ({ t0, ru, v, J, rd }, X, yAt) => {
-    const N = Math.round((J - t0) * 240), dt = (J - t0) / N, A = new Float64Array(N + 1);
-    const sink = t => { const x = (t - t0) / ru; return x <= 1 ? v * ru * sInt(x) : v * (ru / 2 + t - t0 - ru); };
-    for (let i = 1; i <= N; i++) {
-      const t = t0 + i * dt, want = yAt(t, 0) + sink(t);
-      let lo = A[i - 1] - 0.02, hi = A[i - 1] + 0.05;
-      for (let k = 0; k < 50; k++) { const m = (lo + hi) / 2; if (yAt(t, m) < want) lo = m; else hi = m; }
-      A[i] = (lo + hi) / 2;
-    }
-    const r = (A[N] - A[N - 1]) / dt, end = A[N] + r * rd / 2;
-    return { end, at: t => { if (t <= t0) return 0; if (t <= J) { const f = (t - t0) / dt, i = Math.min(N - 1, Math.floor(f)); return A[i] + (A[i + 1] - A[i]) * (f - i); }
-      const x = Math.min(1, (t - J) / rd); return A[N] + r * rd * (x - sInt(x)); } };
-  };
-  // the copy's timing (c01–c03): PUSHING BOUNDARIES is gone by CT.pbOff, frame 2's lines by CT.b2Off (the turns' J)
-  const CT = { pbOff: 4.95, b2Off: 9.35 };
-  const SINK = [{ t0: h1.tk, ru: 1.0, v: 320, J: CT.pbOff, rd: 1.0 }, { t0: h2.tk, ru: 0.8, v: 305, J: CT.b2Off, rd: 0.8 }];
-  // (the reference points are the lines' centres at their key instants, as c01.js and c02.js lay them out: PUSHING
-  // BOUNDARIES in hold 1's view, FOR PATIENTS in hold 2's, both 3 units in front of the sphere)
-  const turn1 = solveTurn(SINK[0], h1.at(932, 558, h1.depth - 3), (t, a) => screenY(t, h1.at(932, 558, h1.depth - 3), a, 0));
-  { const q1 = rot(TA1.ax, turn1.end); TA2 = { P: turn(TA1, turn1.end, h2.pos.clone()), ax: h3.right.clone().applyQuaternion(q1) }; }
-  const X2 = turn(TA1, turn1.end, h2.at(1035, 655, h2.depth - 3));
-  const turn2 = solveTurn(SINK[1], X2, (t, a) => screenY(t, X2, turn1.end, a));
-  const tiltOf = t => {                                              // { a1, a2, q, apply(v) }: v → P2 + q2 (P1 + q1 (v − P1) − P2)
-    const a1 = turn1.at(t), a2 = turn2.at(t), q1 = rot(TA1.ax, a1), q2 = rot(TA2.ax, a2);
-    return { a1, a2, q: q2.clone().multiply(q1), apply: v => { v.sub(TA1.P).applyQuaternion(q1).add(TA1.P); v.sub(TA2.P).applyQuaternion(q2).add(TA2.P); return v; } };
-  };
-  // the camera for an approved pose, tilted: position, look point, and the roll the engine needs (lookAt with world up, then rotateZ)
-  const tiltedCam = (t, pos, look) => {
-    const T = tiltOf(t), p = T.apply(pos.clone()), f = look.clone().sub(pos).normalize(), r0 = f.clone().cross(Y).normalize();
-    const F = f.clone().applyQuaternion(T.q), R = r0.applyQuaternion(T.q), rL = F.clone().cross(Y).normalize(), uL = rL.clone().cross(F);
-    return { pos: p, look: p.clone().addScaledVector(F, 10), roll: Math.atan2(R.dot(uL), R.dot(rL)) * 180 / Math.PI };
-  };
-  // the cameras registered for boards 2 and 3: the approved views, tilted by the whole turn up to their key instants
-  const reg = (n, h) => { const c = tiltedCam(h.tk, h.pos, h.look); return hold(n, { pass: true, t: [h.t0, h.t1], tk: h.tk, pos: c.pos.toArray(), look: c.look.toArray(), roll: c.roll, fov: 26, plate: false }); };
-  const h2T = reg(2, h2), h3T = reg(3, h3);
-  Object.assign(G1, { tilt: tiltOf, tiltNow: tiltOf(0), base: HK, T: CT, tiltedCam, turns: [turn1.end, turn2.end] });
-  anim(t => { G1.t = t; G1.tiltNow = tiltOf(t); });
-  // the shapes are laid out in the approved views: holds 2 and 3 read as the un-tilted ones while they are built, and the
-  // registered, tilted ones again at the end of this file (the copy files and the tools see those)
-  holds[2] = h2; holds[3] = h3;
 
   /* ---------------- helpers ---------------- */
   const dp = (n, off) => holds[n].depth + off;                     // depth: the sphere's depth at that hold + offset (back = +)
@@ -457,14 +304,6 @@ export default V => {
   anim(t => { for (const { u, L } of LK) { let per = L[0].per, ph = L[0].ph;
     for (let j = 1; j < L.length; j++) { const k = ssm((t - L[j - 1].t1 - 0.15) / (L[j].t0 - L[j - 1].t1 - 0.3)); if (k <= 0) break; per += (L[j].per - per) * k; ph += (L[j].ph - ph) * k; }
     u.per.value = per; u.ph.value = ph; } });
-  // the set is carried with the tilt (the header): after the engine has placed each shape (it is laid out in the approved
-  // views), turn it with the camera, so it shows exactly as approved (runs after the engine's own piece update each frame)
-  anim(() => { const T = G1.tiltNow; if (!T.a1 && !T.a2) return;
-    for (const pc of mine) { const m = pc.mesh; if (!m.visible) continue; T.apply(m.position); m.quaternion.premultiply(T.q); } });
-  // the sphere too: its route is turned with the tilt (below), and its painted colour ring with it, so the camera never
-  // sees more of its lower pole than approved (the lighting is the camera's own). Only in G1's time: the sphere is shared.
-  const ballMesh = V.scene.children.find(m => m.isMesh && m.material && m.material.uniforms && m.material.uniforms.ring);
-  anim(t => { const T = G1.tiltNow; if (ballMesh && t < V.CUTS.G2 && (T.a1 || T.a2)) ballMesh.quaternion.premultiply(T.q); });
 
   /* ---------------- the sphere: never still (user, 21:50). It pops in over the slot's left end in frame 1 and floats on
      through 2 and 3 in a lazy wave at a steady 1.15 u/s: it glides along its slot through each board's spot at the key
@@ -485,26 +324,72 @@ export default V => {
     };
     for (let it = 0; it < 30; it++) { build(1600); for (let i = 0; i < 4; i++) k[i] *= Math.pow(VS * (TT[i + 1] - TT[i]) / (idx[i + 1] - idx[i]), i === 1 || i === 2 ? 1.5 : 1); }
     build(4000);                                                        // N a multiple of 8: each mark is exactly a sample point
-    // (its route is laid out through the approved marks and turned with the camera's tilt, so it shows exactly as approved
-    // and sits on each board's spot at the key instants: the tilted holds' marks)
-    const leg = i => u => { const t = TT[i] + u * (TT[i + 1] - TT[i]), p = tiltOf(t).apply(C.getPointAt((idx[i] + u * (idx[i + 1] - idx[i])) / idx[4])); return i ? { p, c: 0 } : { p, c: 0, sc: pop(t) }; };
+    const leg = i => u => { const p = C.getPointAt((idx[i] + u * (idx[i + 1] - idx[i])) / idx[4]), t = TT[i] + u * (TT[i + 1] - TT[i]); return i ? { p, c: 0 } : { p, c: 0, sc: pop(t) }; };
     runSegs([0, 1, 2, 3].map(i => [TT[i], TT[i + 1], idx[i + 1] - idx[i], leg(i)]), VS, VS);
   }
 
-  /* ---------------- the camera keys: the approved path, turned by the tilt (every 1/60 s) ---------------- */
+  /* ---------------- the camera: one continuous move through boards 1–3, never still ----------------
+     Knots: the start (a push already under way on the blank purple), each board's exact framing at its key instant (the
+     drift-through holds' own keys), the apex of the 2 → 3 arc, and the drift into the wipe. The path between knots is one
+     smooth curve (Hermite segments, each knot's tangent along the blend of its two chords, sized by the shorter one: no
+     hooks) and the pace is designed on its own: it eases down to the knot speed around each key instant, lingering there
+     (a sin⁴ bump, flat at both ends, so speed and acceleration are continuous), and cruises in between. Each board is passed
+     at ~20–30 % of the moves either side (board 1: 1.0 u/s between 3.4 and 4.2; board 2: 1.0 between 4.2 and 3.2; board 3:
+     0.6 between 3.1 and 2.6 into the wipe). Tuned for what the eye sees, the set's motion on screen (a grid on the set's
+     plane, from the camera alone): 30–80 px/s throughout, easing to ~30–40 at each key instant, no sudden changes.
+     · 1 → 2 is an S: the camera comes in to board 1 drifting left and swings back through the fast push, so it passes
+       board 2 already drifting right (the way it goes on to 3). Straight in, the drift reversed right at board 2, where a
+       pure push shows little on screen.
+     · 2 → 3 is only ~2.9 units apart, too short for a real move between two slow passes, so the camera arcs toward the
+       set: it pushes in on from board 2 while board 2's set leaves, pans right at the apex (3.5 units nearer the set), then
+       pulls back into board 3's framing as board 3's shapes slide in (a reveal), and pushes in again into the wipe. The
+       apex is passed slower (1.2 u/s) than the push and pull either side of it: there the whole move is sideways, which
+       shows most on screen, so the motion on screen stays even (at full speed it whipped to 170 px/s).
+     · 3 → the wipe: the push in carries a clear drift right (review, 2026-09-28: straight in, it showed only 37–53 px/s for
+       ~2.3 s after board 3, so the ease back out barely read); board 3 is passed already leaning into it.
+     The view turns from one board's direction to the next with the same progress. Laid down as keys every 1/60 s (the
+     engine's Hermite through them reproduces the curve). */
   {
+    const mf = h2.fwd.clone().lerp(h3.fwd, 0.5).normalize();
+    const CK = [   // lat: a sideways lean added to the knot's tangent; kin: that tangent's length × on the incoming side
+      { t: 0, p: h1.pos.clone().addScaledVector(h1.fwd, -5.5).addScaledVector(h1.right, 1.5), d: h1.fwd, v: null },   // v null: solved (no bump)
+      { t: h1.tk, p: h1.pos, d: h1.fwd, v: 1.0, lat: [h1.right, -0.3] },
+      { t: h2.tk, p: h2.pos, d: h2.fwd, v: 1.0, lat: [h2.right, 0.9], kin: 1.6 },
+      { t: (h2.tk + h3.tk) / 2, p: h2.pos.clone().lerp(h3.pos, 0.5).addScaledVector(mf, 3.5), d: mf, v: 1.2 },
+      { t: h3.tk, p: h3.pos, d: h3.fwd, v: 0.6, lat: [h3.right, 0.35] },
+      { t: 13.2, p: h3.pos.clone().addScaledVector(h3.fwd, 3.4).addScaledVector(h3.right, 2.4), d: h3.fwd, v: null },
+    ];
+    const n = CK.length, chord = i => CK[i].p.distanceTo(CK[i + 1].p);
+    const tg = CK.map((c, i) => { const a = i > 0 ? c.p.clone().sub(CK[i - 1].p).normalize() : null, b = i < n - 1 ? CK[i + 1].p.clone().sub(c.p).normalize() : null;
+      const d = (a && b ? a.add(b) : (a || b)).normalize(); if (c.lat) d.addScaledVector(c.lat[0], c.lat[1]).normalize();
+      return d.multiplyScalar(i === 0 ? chord(0) : i === n - 1 ? chord(n - 2) : Math.min(chord(i - 1), chord(i))); });
+    const SG = CK.slice(0, -1).map((A, i) => { const B = CK[i + 1], ma = tg[i], mb = tg[i + 1].clone().multiplyScalar(B.kin || 1), N = 600, pts = [], cum = [0];
+      const P = u => { const u2 = u * u, u3 = u2 * u; return A.p.clone().multiplyScalar(2 * u3 - 3 * u2 + 1).addScaledVector(ma, u3 - 2 * u2 + u).addScaledVector(B.p, -2 * u3 + 3 * u2).addScaledVector(mb, u3 - u2); };
+      for (let j = 0; j <= N; j++) pts.push(P(j / N));
+      for (let j = 1; j <= N; j++) cum.push(cum[j - 1] + pts[j].distanceTo(pts[j - 1]));
+      return { A, B, pts, cum, Lg: cum[N], dt: B.t - A.t, q: new THREE.Quaternion().setFromUnitVectors(A.d, B.d) }; });
+    SG[0].A.v = 2 * SG[0].Lg / SG[0].dt - SG[0].B.v;
+    SG.at(-1).B.v = 2 * SG.at(-1).Lg / SG.at(-1).dt - SG.at(-1).A.v;
+    SG.forEach(s => { s.va = s.A.v; s.vb = s.B.v; s.am = (s.Lg / s.dt - (s.va + s.vb) / 2) / 0.375; });
+    // distance along a segment at u: ∫ (va + (vb − va)·smoothstep + am·sin⁴(πu)) dt
+    const sOf = (s, u) => s.dt * (s.va * u + (s.vb - s.va) * (u * u * u - u * u * u * u / 2) + s.am * (3 * u / 8 - Math.sin(2 * Math.PI * u) / (4 * Math.PI) + Math.sin(4 * Math.PI * u) / (32 * Math.PI)));
+    const camG1 = t => {
+      const s = SG.find(x => t <= x.B.t + 1e-9) || SG.at(-1), u = Math.min(1, Math.max(0, (t - s.A.t) / s.dt)), d = Math.min(s.Lg, Math.max(0, sOf(s, u)));
+      let lo = 0, hi = s.cum.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (s.cum[m] <= d) lo = m; else hi = m; }
+      const f = (d - s.cum[lo]) / Math.max(1e-9, s.cum[hi] - s.cum[lo]), pos = s.pts[lo].clone().lerp(s.pts[hi], f);
+      const w = d / s.Lg, dir = s.A.d.clone().applyQuaternion(new THREE.Quaternion().slerp(s.q, w * w * (3 - 2 * w)));
+      return { pos, look: pos.clone().addScaledVector(dir, 10) };
+    };
     const TKS = [h1.tk, h2.tk, h3.tk];
-    const keyAt = t => { const c = camG1(t), k = tiltedCam(t, c.pos, c.look); V.key(t, k.pos, k.look, { fov: 26, roll: k.roll }); };
-    for (let i = 0; i / 60 < 13.2 - 0.004; i++) { const t = i / 60; if (TKS.some(x => Math.abs(t - x) < 0.004)) continue; keyAt(t); }
-    keyAt(13.199);
+    for (let i = 0; i / 60 < 13.2 - 0.004; i++) { const t = i / 60; if (TKS.some(x => Math.abs(t - x) < 0.004)) continue; const c = camG1(t); V.key(t, c.pos, c.look, { fov: 26 }); }
+    { const c = camG1(13.199); V.key(13.199, c.pos, c.look, { fov: 26 }); }
   }
-  holds[2] = h2T; holds[3] = h3T;                                   // the registered, tilted holds again (see the tilt above)
   wipe(12.7, 'lr');
   note(0, 1.7, 'Frame 1 builds in from the blank purple: the collage flies in out of the depth (the camera already pushing in); the tiles turn 90° as they land');
   note(1.7, 3.5, '1 · the camera eases through board 1 without stopping; the sphere glides along its slot');
-  note(3.5, 5.7, '1 → 2 · carry: the camera tilts up and PUSHING BOUNDARIES, left in its place, sinks off the bottom; shared shapes glide to their board-2 places; the tiles turn on and fade back as the discs grow in; the sphere floats up and over into its board-2 spot');
+  note(3.5, 5.7, '1 → 2 · carry: shared shapes glide to their board-2 places; the tiles turn on and fade back as the discs grow in; the sphere floats up and over into its board-2 spot');
   note(5.7, 7.4, '2 · the camera eases through board 2 without stopping and pushes on in toward the set');
-  note(7.4, 9.9, '2 → 3 · carry: the camera tilts up again (frame 2\'s lines, left in their place, sink off the bottom) and arcs in toward the set, then pulls back into board 3 as its new shapes slide in from the edges; the right cluster stays');
+  note(7.4, 9.9, '2 → 3 · carry: the camera arcs in toward the set, then pulls back into board 3 as its new shapes slide in from the edges; the right cluster stays');
   note(9.9, 12.1, '3 · the camera eases through board 3, then pushes in, gathering pace, into the wipe');
   note(12.1, 13.2, '3 → 4 · full-screen gradient wipe, left to right (replaces the brand-circle burst)');
 };
